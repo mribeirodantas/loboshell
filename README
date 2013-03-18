@@ -1,11 +1,8 @@
-#!bin/bash
-# _           _               _          _ _ 
-#| |         | |             | |        | | |
-#| |     ___ | |__   ___  ___| |__   ___| | |
-#| |    / _ \| '_ \ / _ \/ __| '_ \ / _ \ | |
-#| |___| (_) | |_) | (_) \__ \ | | |  __/ | |
-#|______\___/|_.__/ \___/|___/_| |_|\___|_|_|
-#
+ _____          __                 __           __ __ 
+|     |_.-----.|  |--.-----.-----.|  |--.-----.|  |  |
+|       |  _  ||  _  |  _  |__ --||     |  -__||  |  |
+|_______|_____||_____|_____|_____||__|__|_____||__|__| v1.7a
+
 # by vitorlobo
 # - http://vitorlobo.blogspot.com.br
 # - http://softwarelivre.org/lobocode
@@ -15,8 +12,7 @@
 #
 
 
-<a href="http://s23.postimage.org/9a6ddh7hn/image.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://s23.postimage.org/9a6ddh7hn/image.png" /></a></div>
-
+Imagem [http://s23.postimage.org/9a6ddh7hn/image.png]
 
 
 Modo de usar:
