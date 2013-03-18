@@ -1,0 +1,30 @@
+#!bin/bash
+# _           _               _          _ _ 
+#| |         | |             | |        | | |
+#| |     ___ | |__   ___  ___| |__   ___| | |
+#| |    / _ \| '_ \ / _ \/ __| '_ \ / _ \ | |
+#| |___| (_) | |_) | (_) \__ \ | | |  __/ | |
+#|______\___/|_.__/ \___/|___/_| |_|\___|_|_|
+#
+# by vitorlobo - http://vitorlobo.blogspot.com.br // http://softwarelivre.org/lobocode
+# E-mail: lobocode@hotmail.com
+# Outros: #cg-br ----> irc.freenode.net
+#
+
+Modo de usar:
+
+1 - Abra o terminal Linux
+2 - Entre como root
+3 - Digite bash loboshell.sh
+
+Funções:
+
+1 - Limpar o Sistema de forma segura
+2 - Remover o antigo Kernel
+3 - Otimizar o Unity
+4 - Mudar de Interface Gráfica
+5 - Baixar e instalar Games
+6 - Baixar e instalar Programas úteis.
+
+
+
