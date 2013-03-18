@@ -20,7 +20,8 @@ Modo de usar:
 0 - git clone git@github.com:lobocode/loboshell.git
 1 - Abra o terminal Linux
 2 - Entre como root
-3 - Digite bash loboshell.sh
+3 - cd ~/loboshell
+4 - Digite bash loboshell.sh
 
 Funções:
 
