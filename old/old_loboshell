@@ -1,0 +1,535 @@
+#!bin/bash
+# _           _               _          _ _ 
+#| |         | |             | |        | | |
+#| |     ___ | |__   ___  ___| |__   ___| | |
+#| |    / _ \| '_ \ / _ \/ __| '_ \ / _ \ | |
+#| |___| (_) | |_) | (_) \__ \ | | |  __/ | |
+#|______\___/|_.__/ \___/|___/_| |_|\___|_|_|
+#
+# by vitorlobo - http://projectzim.blogspot.com.br // http://vitorlobo.carbonmade.com
+# E-mail: lobocode@hotmail.com
+# Outros: #cg-br ----> irc.freenode.net
+#
+##########################################################
+
+# Início
+# Se for root, ele inicia. Se não for root, pede para ser root.
+
+while true # Caso você queira fazer mais alguma operação, o while volta ao início.
+do
+# Imprime a logo em ASCII na tela do shell  
+echo "
+ _____          __                 __           __ __ 
+|     |_.-----.|  |--.-----.-----.|  |--.-----.|  |  |
+|       |  _  ||  _  |  _  |__ --||     |  -__||  |  |
+|_______|_____||_____|_____|_____||__|__|_____||__|__| v1.6j
+
+Visite o irc.freenode.net com Xchat no canal #cg-br "
+
+sleep 3 # Espera 3 segundos.
+echo 
+echo
+
+# Sugestões de uso
+echo "O que você deseja fazer?
+
+
+--> APERTE CTRL + C se deseja encerrar o programa
+
+
+1 - Limpeza no sistema de forma segura
+2 - Remover o antigo kernel 
+3 - Limpar cache na memória
+4 - Instalar codecs e VLC
+5 - Instalar drivers de vídeo
+6 - Instalar o Steam no Ubuntu 12.04 ou 12.10
+7 - Otimizar o Ubuntu 12.04, 12.10 com Unity( Deixar mais leve )
+8 - Remover o Unity
+9 - Experimentar outra interface gráfica sem remover o Unity
+10 - Instalar o LAMP (Linux, Apache, MySQL e PHP)
+11 - Baixar e instalar o Google Chrome mais atual
+12 - Mostrar informações do seu sistema e gerar log
+13 - Instalar games ( mostrar opções )
+14 - Instalar o Skype ubuntu 12.04 e 12.10 (somente 32 bits)
+15 - Instalar o JDK, JRE, JAVA 7 
+16 - Remover o JDK e JRE (em caso de erro na instalação)
+17 - Instalar o Sublime Text 2
+18 - Instalar a nova versão do Inkscape 0.48.4
+19 - Instalar o DropBox
+20 - Atualizar o loboshell <-----
+___________________________________________
+
+Obs: Sempre que puder, atualize o loboshell
+___________________________________________
+
+"
+uid=`id -un`
+if [ "$uid" != "root" ]
+	then
+	echo
+    echo "Atenção: Para executar este script com sucesso, você precisa estar como ROOT!!!"
+    echo "Logue como root e tente novamente"
+    echo
+    sleep 3
+    break
+else
+
+	# Função que disponibiliza informações do sistema
+	# para ser usado logo a baixo no 13.
+	function sysinfo {
+			echo "Você escolheu mostrar informações do seu sistema "	
+			echo
+			echo "Seu sistema é composto por:"
+			echo
+			echo "Distribuição :" ; cat /etc/issue
+			echo "-----------------------------------------------------"
+			echo "Versão do Kernel e Arquitetura : " ; uname -rm
+			echo "-----------------------------------------------------"
+			echo "Processador :" ; cat /proc/cpuinfo | grep -m 1 "model name" | awk -F: '{ print $2 }'
+			echo "-----------------------------------------------------"
+			echo "MHZ :" ; cat /proc/cpuinfo | grep -m 1 "cpu MHz" | awk -F: '{ print $2 }'
+			echo "-----------------------------------------------------"
+			echo "Swap :" free -m | grep Swap | awk -F" " '{ print $2 }'
+			echo "-----------------------------------------------------"
+			echo "Total de memória RAM :" ; (free -m | sed '2!d' | awk '{print $2}')
+			echo "-----------------------------------------------------"
+			echo "Placa de vídeo :" ; lspci |grep VGA
+			echo "-----------------------------------------------------"
+			echo "Placa de som :" ; lspci |grep Audio
+			echo "-----------------------------------------------------"
+			echo "Quantidade de partições :" ; (awk '{print $4}' /proc/partitions |\
+	   sed ':A ; $!N ; s/\n/ /g ; tA ; s/name// ; s/^[ \t]*//')
+			echo "-----------------------------------------------------"
+
+		}
+
+	function makeDesk1 {
+		echo "[Desktop Entry]
+Name=Inkscape
+Exec=inkscape
+Icon=inkscape
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;GTK;
+Type=Application
+StartupNotify=true"
+			}	
+
+	# Esperando entrada de teclado
+	echo "Digite o número que corresponde às questões acima:";read questao
+
+	if  [ "$questao" =  "1" ]
+	 then
+	 	echo "Você escolheu efetuar limpeza no sistema de forma segura"
+	 	echo
+	 	apt-get install deborphan &&  deborphan | xargs apt-get -y remove --purge && apt-get autoremove && apt-get clean && apt-get autoclean && apt-get -f remove
+		sleep 3
+		clear
+
+	elif [ "$questao" = "2" ]
+		then
+		echo "Você escolheu remover o antigo kernel"
+		echo
+		dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs  apt-get -y purge
+		sleep 3
+		clear
+
+	elif [ "$questao" = "3" ]
+		then
+		echo "Você escolheu limpar cache na memória"
+		echo "Limpando o cache de memória"
+		sleep 2
+		sysctl -w vm.drop_caches=3 
+		clear
+
+	elif [ "$questao" = "4" ]; then
+		echo "Você escolheu instalar codecs e vlc"
+		apt-get install vlc && wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list && apt-get --yes --quiet --allow-unauthenticated install medibuntu-keyring && apt-get --quiet update && sudo apt-get -y upgrade && update-apt-xapian-index && apt-get -y install w32codecs ubuntu-restricted-extras && apt-get -y install libdvdcss2 libdvdnav4 libdvdread4 && apt-get install gstreamer0.10-ffmpeg gstreamer0.10-plugins-ugly gstreamer0.10-plugins-bad gstreamer0.10-bad-multiverse
+		sleep 2
+		clear
+
+	elif [ "$questao" = "5" ]
+		then
+		echo "Você escolheu instalar drivers de vídeo"
+		echo "Seu sistema será reiniciado após a operação."
+		echo "Quando voltar do reboot, verifique se os drivers já estão disponíveis."
+		echo
+		echo "1 - Instalar drivers de vídeo SIS, VIA, INTEL
+2 - Instalar drivers Nvidia (GeForce GTX 680,GT 630M,GT 620 )
+3 - Instalar drivers ATI Radeon (Ubuntu/Mint)
+
+Qual o driver que você desejar instalar?" ; read driverVid
+		echo
+
+		if [ "$driverVid" = "1" ]
+			then
+			echo "Você escolheu instalar drivers de vídeo SIS, VIA, INTEL"
+					add-apt-repository ppa:oibaf/graphics-drivers && apt-get update && apt-get dist-upgrade && shutdown -r now
+
+			sleep 3
+			clear
+
+		elif [ "$driverVid" = "2" ]
+			then
+			echo "Você escolheu instalar drivers Nvidia (GeForce GTX 680,GT 630M,GT 620 )"
+			echo
+			apt-add-repository ppa:ubuntu-x-swat/x-updates && apt-get update && sudo apt-get install nvidia-current && shutdown -r now
+
+			sleep 3 
+			clear
+
+		elif [ "$driverVid" = "3" ]
+			then
+			echo "Você escolheu instalar drivers ATI Radeon (Ubuntu/Mint)"
+			echo
+			apt-get purge fglrx* && add-apt-repository ppa:andrikos/ppa && apt-get update && apt-get install fglrx xserver-xorg-video-intel && aticonfig –initial –force && shutdown -r now
+
+			sleep 3
+			clear
+		fi
+
+
+	elif [ "$questao" = "6" ]
+		then
+		echo "Você escolheu instalar o Steam"
+		echo
+		cd && wget http://media.steampowered.com/client/installer/steam.deb && [ `uname -m` = "x86_64" ] && apt-get -y install libjpeg-turbo8:i386 libcurl3-gnutls:i386 libogg0:i386 libpixman-1-0:i386 libsdl1.2debian:i386 libtheora0:i386 libvorbis0a:i386 libvorbisenc2:i386 libvorbisfile3:i386 libasound2:i386 libc6:i386 libgcc1:i386 libstdc++6:i386 libx11-6:i386 libxau6:i386 libxcb1:i386 libxdmcp6:i386 ; dpkg -i steam.deb ; apt-get install -f
+		sleep 3
+		clear
+
+	elif [ "$questao" = "7" ]
+		then
+		echo "Você escolheu otimizar o Ubuntu 12.04, 12.10 com Unity"
+		echo "Esta função basicamente remove componentes que consomem memória desnecessáriamente e tem uso muito específico."
+		echo "Seu computador será reiniciado ao fim do procedimento."
+		echo
+		apt-get remove unity-lens-music &&  apt-get remove unity-lens-video &&  apt-get remove unity-scope-video-remote && apt-get remove unity-scope-musicstores &&  apt-get remove ubuntuone-client &&  mv /usr/bin/bluetooth-applet /usr/bin/bluetooth-applet-old && apt-get remove deja-dup &&  apt-get autoremove gnome-online-accounts &&  mv /usr/share/oneconf/oneconf-service /usr/share/oneconf/oneconf-service-old && shutdown -r now
+		sleep 2
+		clear
+
+	elif [ "$questao" = "8" ]
+		then
+		echo "Você escolheu remover o Unity"
+		apt-get remove ubuntu-settings
+		sleep 2
+		clear
+
+	elif [ "$questao" = "9" ]
+		then
+		echo "Você escolheu experimentar outra interface gráfica"
+		echo "Seu computador será reiniciado ao fim do procedimento."
+		echo
+		echo "Qual ambiente gráfico você deseja?
+
+	1- Mate 
+	2- Xfce 
+	3- Lxde 
+	4- Kde
+	5- Enlightenment 17
+	6- Gnome 3x (Gnomeshell)
+
+	Digite o número que corresponde ao ambiente gráfico que você deseja instalar."; read de 
+
+		if [ "$de" = "1" ]
+			then
+			add-apt-repository "deb http://packages.mate-desktop.org/repo/ubuntu quantal main" &&  apt-get update &&  apt-get install mate-archive-keyring &&  apt-get update &&  apt-get install mate-core &&  apt-get install mate-desktop-environment
+			sleep 3
+			clear
+
+		elif [ "$de" = "2" ]
+			then
+			apt-get install xfce4
+			sleep 3
+			clear
+
+		elif [ "$de" = "3" ]
+			then
+			apt-get install lxde
+			sleep 3
+			clear
+
+		elif [ "$de" = "4" ]
+			then
+			apt-get install kde-standard
+			sleep 3
+			clear
+
+		elif [ "$de" = "5" ]
+			then
+			apt-add-repository ppa:hannes-janetzek/enlightenment-svn &&  apt-get update &&   apt-get install e17
+			sleep 3
+			clear
+
+		elif [ "$de" = "6" ]
+			then
+			apt-get install ubuntu-gnome-desktop ubuntu-gnome-default-settings &&  apt-get install gnome-documents gnome-boxes &&  add-apt-repository ppa:gnome3-team/gnome3 &&       apt-get remove overlay-scrollbar*
+			sleep 3
+			clear
+		fi
+
+	elif [ "$questao" = "10" ]
+		then
+		echo "Você escolheu instalar o lamp"
+		apt-get install lamp-server^ && apt-get install phpmyadmin
+		echo	
+		echo "Pronto! Se tudo correr bem, você terá acesso ao seu LAMP em http://localhost/phpmyadmin/"
+		sleep 5
+		clear
+
+	elif [ "$questao" = "11" ]
+		then
+		echo "Você escolheu baixar e instalar o Google Chrome"
+		echo "Qual versão?"
+		echo
+		echo "1- 32 bits
+2- 64 bits"
+		echo	  
+		echo "Digite o número que corresponde às questões acima:" ; read arq
+
+		if [ "$arq" = "1" ]
+			then
+			echo "Instalando o Google Chrome 32 bits"
+			wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb && apt-get install libcurl3 &&dpkg -i google-chrome-stable_current_i386.deb && apt-get -f install 
+			sleep 2
+			clear
+
+		elif [ "$arq" = "2" ]
+			then
+			echo "Instalando o Google Chrome 64 bits"
+			wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt-get install libcurl3 &&dpkg -i google-chrome-stable_current_amd64 && apt-get -f install
+			sleep 2
+			clear
+		fi 		
+
+	elif [ "$questao" = "12" ]
+		then
+		sysinfo
+		echo
+		echo "Deseja salvar o log das configurações? (s/n)" ; read logx
+		echo
+		if [ "$logx" = "s" ]
+			then
+			sysinfo > /var/infosys.txt
+			gedit /var/infosys.txt
+			clear
+
+		else
+			sleep 2
+		fi
+
+
+	elif [ "$questao" = "13" ]
+		then
+		echo "Você optou por instalar games"
+		echo
+		echo "Qual game você deseja instalar?
+
+1 - OpenArena
+2 - Urban Terror
+3 - Hedgewars
+4 - Maryo Chronicles
+5 - XMoto
+6 - Warcraft II ( Clássico )
+7 - Zsnes e 54 rooms (jogos)
+
+Qual jogo você deseja instalar? digite o número correspondente:  " ; read games
+		
+		if [ "$games" = "1" ]
+			then
+			echo "Você escolheu instalar o OpenArena"
+			echo
+			apt-get install openarena
+			sleep 2
+			clear
+
+		elif [ "$games" = "2" ]
+			then
+			echo "Vôcê escolheu instalar o Urban Terror"
+			echo
+			wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add - && deb http://archive.getdeb.net/ubuntu/ quantal-getdeb games && sudo apt-get update && apt-get install -y urbanterror
+			sleep 2
+			clear
+
+
+		elif [ "$games" = "3" ]
+			then
+			echo "Vôcê escolheu instalar o Hedgewars"
+			echo
+			wget -q -O- http://archive.getdeb.net/getdeb-archive.key | apt-key add - && deb http://archive.getdeb.net/ubuntu/ quantal-getdeb games && apt-get update && apt-get install hedgewars
+			sleep 2
+			clear
+
+
+		elif [ "$games" = "4" ]
+			then
+			echo "Vôcê escolheu instalar o Maryo Chronicles"
+			echo
+			apt-get install smc
+			sleep 2
+			clear
+
+
+		elif [ "$games" = "5" ]
+			then
+			echo "Vôcê escolheu instalar o XMoto"
+			echo
+			apt-get install xmoto
+			sleep 2
+			clear
+
+		elif [ "$games" = "6" ]
+			then
+			echo "Vôcê escolheu instalar o Warcraft II"
+			echo "Depois de instalado, você pode optar em rodar o warcraft II
+sempre por esta opção de instalação do mesmo. Se preferir outro método, sugiro que
+abra o terminal, vá até a pasta war2, e digite:
+dosbox WAR.EXE "
+			sleep 3
+			wget http://www.bestoldgames.net/download/bgames/warcraft-2.zip && unzip warcraft-2.zip && mv Warcraft 2 war2 && apt-get install wine && apt-get install dosbox && apt-get update && cd war2 && dosbox WAR.EXE
+			sleep 2
+			clear
+
+
+		elif [ "$games" = "7" ]
+			then
+			echo "Vôcê escolheu instalar o emulador de Super Nintendo Zsnes e rooms"
+			echo
+			echo "Carregando lista de rooms para baixar........"
+			echo
+			sleep 4
+			echo "
+Alladin
+Animaniacs
+Art of Fight
+Arterix & Obelix
+B.O.B
+Bahamut Lagoon
+Battletoads & Double Dragon
+Battletoads in Battlemaniacs
+BS Chrono Trigger - Jet Bike Special 
+California Games II
+Captain Commando
+Captain Tsubasa IV - Pro no Rival Tachi
+Castlevania - Dracula X 
+Castlevania - Vampire's Kiss
+Chou Makai-Mura
+Clock Tower
+Daikaijuu Monogatari 2
+Donald in Maui Mallard
+Dragon Ball Z - Super Saiya Densetsu
+Earthworm Jim
+Earthworm Jim II
+Fatal Fury 2
+Final Fight 3
+Final Fight Guy
+Goof Troop 
+Knights of the Round
+Killer Instinct
+Legend
+Legend of The Mystical Ninja
+Lion King
+Lost Vikings
+Magical Quest Starring Mickey Mouse
+Mega Man VII
+Mega Man X 3
+Metal Warriors
+Might and Magic II - Gates to Another World
+Mortal Kombat 3
+NBA Jam - Tournament Edition
+Ninja Gaiden Trilogy 
+Rock N' Roll Racing
+Rockman X
+Rockman X 2
+Rockman X 3
+Sonic Blast Man
+Sonic Blast Man II
+Sonic the Hedgehog
+Sonic Wings
+Street Fighter Alpha 2 
+Street Fighter II - The World Warrior
+Street Fighter II Turbo - Hyper Fighting 
+Sunset Riders 
+Super Bomberman 4
+Super Bomberman 5
+Super Bomberman 5 - Gold Cartridge
+
+Aperte [Enter para continuar]
+
+" ; read temp
+			apt-get install zsnes && wget http://dl.dropbox.com/u/98397345/rooms/rooms.tar.bz2 && tar -jxvf rooms.tar.bz2 
+			echo
+			echo "Abra seu emulador Zsnes, vá em GAME > LOAD e abra a pasta rooms em sua Home.
+Obs: Não precisa descompactar o zip para jogar. Pressione [ENTER] para finalizar" ; read temp2 
+			sleep 2
+			clear
+
+
+		fi
+
+	elif [ "$questao" = "14" ]
+		then
+		echo "Você escolheu instalar o Skype"
+		echo
+		wget http://download.skype.com/linux/skype-ubuntu-precise_4.1.0.20-1_i386.deb && dpkg -i skype-ubuntu-precise_4.1.0.20-1_i386.deb
+		sleep 2
+		clear
+
+
+	elif [ "$questao" = "15" ]
+		then
+		echo "Você escolheu instalar o Java"
+		echo
+		add-apt-repository ppa:upubuntu-com/java && apt-get update && sudo apt-get install oracle-java7-installer && wget http://security.ubuntu.com/ubuntu/pool/universe/i/icedtea-web/icedtea-7-plugin_1.2-2ubuntu1.3_i386.deb && dpkg -i icedtea-7-plugin_1.2-2ubuntu1.3_i386.deb
+		sleep 2
+		clear	
+
+
+	elif [ "$questao" = "16" ]
+		then
+		echo "Você escolheu remover o Java"
+		echo
+		rm /var/lib/dpkg/info/oracle-java7-installer* && apt-get autoremove oracle-java7-installer && apt-get purge oracle-java7-installer* && apt-get autoremove java-common
+		sleep 2
+		clear	
+
+	elif [ "$questao" = "17" ]
+		then
+		echo "Você escolheu instalar o Sublime Text 2"
+		echo
+		add-apt-repository ppa:webupd8team/sublime-text-2 && apt-get update && apt-get install sublime-text-2
+		sleep 2
+		clear	
+
+
+	elif [ "$questao" = "18" ]
+		then
+		echo "Você escolheu instalar o Inkscape"
+		echo
+		wget http://ufpr.dl.sourceforge.net/project/inkscape/inkscape/0.48.4/inkscape-0.48.4.tar.gz && tar -vzxf inkscape-0.48.4.tar.gz && cd inkscape-0.48.4 && apt-get build-dep inkscape && ./configure && make && make install && cd .. && rm -R inkscape-0.48.4 && makeDesk1 > /home/$LOGNAME/.local/share/applications/inkscape.desktop
+		sleep 2
+		clear
+
+
+	elif [ "$questao" = "19" ]
+		then
+			echo "Você escolheu instalar o DropBox"
+			echo
+			apt-get install nautilus-dropbox
+			sleep 2
+			clear
+
+
+	elif [ "$questao" = "20" ]
+		then
+		echo "Você escolheu atualizar o loboshell"
+		rm -R loboshell && https://dl.dropbox.com/u/98397345/newlobo && chmod +x -R ~/loboshell && chmod 777 -R ~/loboshell
+		echo
+		echo "LOBOSHELL ATUALIZADO COM SUCESSO."
+		echo "O programa será encerrado para concluir a nova instalação."
+		sleep 4
+		break
+
+
+	fi
+	fi
+done
+
