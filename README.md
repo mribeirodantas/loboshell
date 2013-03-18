@@ -14,8 +14,12 @@
 # Outros: #cg-br ----> irc.freenode.net
 #
 
-Modo de usar:
 
+<a href="http://s23.postimage.org/9a6ddh7hn/image.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-6XDacD68Tbc/T0O6Gl2-aEI/AAAAAAAAApU/n9UTRZ0xxno/s1600/devwholepad.png" /></a></div>
+
+
+
+Modo de usar:
 
 0 - git clone git@github.com:lobocode/loboshell.git
 1 - Abra o terminal Linux
