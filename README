@@ -6,7 +6,9 @@
 #| |___| (_) | |_) | (_) \__ \ | | |  __/ | |
 #|______\___/|_.__/ \___/|___/_| |_|\___|_|_|
 #
-# by vitorlobo - http://vitorlobo.blogspot.com.br // http://softwarelivre.org/lobocode
+# by vitorlobo.blogspot.com.br
+# - http://vitorlobo.blogspot.com.br
+# - http://softwarelivre.org/lobocode
 # E-mail: lobocode@hotmail.com
 # Outros: #cg-br ----> irc.freenode.net
 #
@@ -14,7 +16,7 @@
 Modo de usar:
 
 
-0 - Faça um clone do programa em seu pc: git clone git@github.com:lobocode/loboshell.git
+0 - git clone git@github.com:lobocode/loboshell.git
 1 - Abra o terminal Linux
 2 - Entre como root
 3 - Digite bash loboshell.sh
