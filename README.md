@@ -12,10 +12,10 @@
 #
 
 
-Imagem [http://s23.postimage.org/9a6ddh7hn/image.png]
+![ScreenShot](http://s23.postimage.org/9a6ddh7hn/image.png)
 
 
-Modo de usar:
+# Modo de usar #
 
 0 - git clone git@github.com:lobocode/loboshell.git
 1 - Abra o terminal Linux
@@ -23,7 +23,7 @@ Modo de usar:
 3 - cd ~/loboshell
 4 - Digite bash loboshell.sh
 
-Funções:
+# Funções #
 
 1 - Limpar o Sistema de forma segura
 2 - Remover o antigo Kernel
