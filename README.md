@@ -2,14 +2,14 @@
 |     |_.-----.|  |--.-----.-----.|  |--.-----.|  |  |
 |       |  _  ||  _  |  _  |__ --||     |  -__||  |  |
 |_______|_____||_____|_____|_____||__|__|_____||__|__| v1.7a
+================================================================
+by vitorlobo
+http://vitorlobo.blogspot.com.br
+http://softwarelivre.org/lobocode
+E-mail: lobocode@hotmail.com
 
-# by vitorlobo
-# - http://vitorlobo.blogspot.com.br
-# - http://softwarelivre.org/lobocode
-# - E-mail: lobocode@hotmail.com
-#
-# Outros: #cg-br ----> irc.freenode.net
-#
+Outros: #cg-br ----> irc.freenode.net
+
 
 
 ![ScreenShot](http://s23.postimage.org/9a6ddh7hn/image.png)
