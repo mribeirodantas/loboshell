@@ -19,10 +19,10 @@ dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/"
 
 # Função que disponibiliza informações do sistema
 function sysinfo {
-
+distro=`lsb_release -d | awk -F: '{ print $2 }'`
 echo "Seu sistema é composto por:"
 echo
-echo "Distribuição :" ; cat /etc/issue
+echo "Distribuição : $distro"
 echo "-----------------------------------------------------"
 echo "Versão do Kernel e Arquitetura : " ; uname -rm
 echo "-----------------------------------------------------"
