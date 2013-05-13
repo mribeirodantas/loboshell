@@ -19,10 +19,10 @@ dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/"
 
 # Função que disponibiliza informações do sistema
 function sysinfo {
-distro=`lsb_release -d | awk -F: '{ print $2 }'`
+
 echo "Seu sistema é composto por:"
 echo
-echo "Distribuição : $distro"
+echo "Distribuição :" ; echo `lsb_release -d|awk -F: '{ print $2 }'`
 echo "-----------------------------------------------------"
 echo "Versão do Kernel e Arquitetura : " ; uname -rm
 echo "-----------------------------------------------------"
@@ -30,9 +30,9 @@ echo "Processador :" ; cat /proc/cpuinfo | grep -m 1 "model name" | awk -F: '{ p
 echo "-----------------------------------------------------"
 echo "MHZ :" ; cat /proc/cpuinfo | grep -m 1 "cpu MHz" | awk -F: '{ print $2 }'
 echo "-----------------------------------------------------"
-echo "Swap :" free -m | grep Swap | awk -F" " '{ print $2 }'
+echo "Swap :" ; echo "`(free -m | grep Swap | awk -F" " '{ print $2 }')` MB"
 echo "-----------------------------------------------------"
-echo "Total de memória RAM :" ; (free -m | sed '2!d' | awk '{print $2}')
+echo "Total de memória RAM :" ; echo "`(free -m | sed '2!d' | awk '{print $2}')` MB"
 echo "-----------------------------------------------------"
 echo "Placa de vídeo :" ; lspci |grep VGA
 echo "-----------------------------------------------------"
