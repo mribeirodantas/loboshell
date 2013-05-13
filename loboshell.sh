@@ -1,4 +1,4 @@
-#!bin/bash
+#! /bin/bash
 # _           _               _          _ _ 
 #| |         | |             | |        | | |
 #| |     ___ | |__   ___  ___| |__   ___| | |
@@ -18,7 +18,7 @@ do
 # Identificar se o usuário está logado como ROOT	
 uid=`id -un` 
 
-	if [ "$uid" != "root" ]; then
+	if [ "$uid" != "root" ] || [ "$SUDO_USER" == " " ]; then
 		zenity --warning --text="Atenção!\nVocê não está logado como ROOT(Super-usuário).Feche o Loboshell e logue como ROOT para poder usurfruir de todas suas funcionalidades!"
 	exit;
 
